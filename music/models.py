@@ -17,6 +17,7 @@ class Song(models.Model):
 
     title = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
+    text = models.TextField(null=True, blank=True)
     cover = models.ImageField(upload_to='songs/covers', validators=(validate_image,))
     audio_file = models.FileField(upload_to='songs')
     duration = models.DurationField(default=timedelta)

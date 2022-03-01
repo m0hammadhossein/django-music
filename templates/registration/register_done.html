@@ -1,0 +1,7 @@
+{% extends "registration/base_template.html" %}
+{% block title %}ثبت نام{% endblock %}
+{% block h2 %}ثبت نام شما موفقیت آمیز بود.{% endblock %}
+{% block message %}
+    <p>لینک فعالسازی حساب به ایمیل شما ارسال شد,درصورت دریافت نکردن آدرس ایمیل یا پوشه اسپم را چک کنید.</p>
+    <a href="{% url 'accounts:login' %}"> صفحه ورود</a>
+{% endblock %}

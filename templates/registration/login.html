@@ -1,0 +1,40 @@
+{% extends "registration/base_form.html" %}
+{% load widget_tweaks %}
+{% block head %}{% block title %}ورود{% endblock %}{% endblock %}
+{% block input %}
+    <div class="wrap-input100 validate-input">
+        {% render_field form.username class="input100 my-font" type="text" placeholder="   نام کاربری" %}
+        <span class="focus-input100" data-placeholder="&#xf207;"></span>
+    </div>
+
+    {% if form.username.errors %}
+        <div class="alert alert-primary fs-15">
+            {{ form.username.errors }}
+        </div>
+    {% endif %}
+
+    <div class="wrap-input100 validate-input">
+        {% render_field form.password class="input100 my-font" type="password" placeholder="   گذرواژه" %}
+        <span class="focus-input100" data-placeholder="&#xf191;"></span>
+    </div>
+
+    {% if form.password.errors %}
+        <div class="alert alert-primary fs-15">
+            {{ form.password.errors }}
+        </div>
+    {% elif form.non_field_errors %}
+        <div class="alert alert-primary fs-15">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+    <div class="text-right p-t-20">
+        <a class="txt1 my-font" href="{% url 'accounts:password_reset' %}">
+            فراموشی رمز
+        </a>
+    </div>
+    <div class="container-login100-form-btn p-t-20">
+        <button class="login100-form-btn my-font">
+            ورود
+        </button>
+    </div>
+{% endblock %}

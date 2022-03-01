@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static "registration/css/rtl.css" %}">
+    <!--===============================================================================================-->
+</head>
+<body>
+<div style="text-align: center;">
+    <h2>{% block h2 %}{% endblock %}</h2>
+    {% block message %}
+
+    {% endblock %}
+</div>
+</body>
+</html>

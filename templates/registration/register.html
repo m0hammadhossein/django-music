@@ -1,0 +1,50 @@
+{% extends "registration/base_form.html" %}
+{% load widget_tweaks %}
+{% block title %}{% block head %}ثبت نام{% endblock %}{% endblock %}
+{% block input %}
+    <div class="wrap-input100 validate-input">
+        {% render_field form.username class="input100 my-font" type="text" placeholder="نام کاربری" %}
+    </div>
+
+    {% if form.username.errors %}
+        <div class="alert alert-primary fs-15">
+            {{ form.username.errors }}
+        </div>
+    {% endif %}
+
+     <div class="wrap-input100 validate-input">
+        {% render_field form.email class="input100 my-font" type="text" placeholder="ایمیل" %}
+    </div>
+
+    {% if form.email.errors %}
+        <div class="alert alert-primary fs-15">
+            {{ form.email.errors }}
+        </div>
+    {% endif %}
+
+     <div class="wrap-input100 validate-input">
+        {% render_field form.password1 class="input100 my-font" type="password" placeholder="گذرواژه" %}
+    </div>
+
+    {% if form.password1.errors %}
+        <div class="alert alert-primary fs-15">
+            {{ form.password1.errors }}
+        </div>
+    {% endif %}
+
+     <div class="wrap-input100 validate-input">
+        {% render_field form.password2 class="input100 my-font" type="password" placeholder="تایید گذرواژه" %}
+    </div>
+
+    {% if form.password2.errors %}
+        <div class="alert alert-primary fs-15">
+            {{ form.password2.errors }}
+        </div>
+    {% endif %}
+
+    <div class="container-login100-form-btn p-t-20">
+        <button class="login100-form-btn my-font">
+            ثبت نام
+        </button>
+    </div>
+{% endblock %}

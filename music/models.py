@@ -1,10 +1,12 @@
 from datetime import timedelta
 from os import remove
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 import jdatetime
 from django.forms.utils import to_current_timezone
+from humanize import i18n, naturaltime
 
 
 class Song(models.Model):
@@ -21,6 +23,7 @@ class Song(models.Model):
     cover = models.ImageField(upload_to='songs/covers', validators=(validate_image,))
     audio_file = models.FileField(upload_to='songs')
     duration = models.DurationField(default=timedelta)
+    created_on = models.DateTimeField()
     likes = models.PositiveIntegerField(default=0)
 
     def delete(self, using=None, keep_parents=False):
@@ -47,13 +50,16 @@ class Comment(models.Model):
     reply_count = models.IntegerField(default=0)
     active = models.BooleanField(default=False)
 
+    def tms_created_on(self):
+        i18n.activate(settings.HUMANIZE_LOCATION)
+        return naturaltime(to_current_timezone(self.created_on))
+
     def jcreated_on(self):
         return jdatetime.datetime.fromgregorian(datetime=to_current_timezone(self.created_on), locale='fa_IR').strftime('%a, %d %b %Y ساعت %H:%M')
 
     jcreated_on.short_description = 'created on'
 
     class Meta:
-        ordering = ('created_on',)
         verbose_name = 'دیدگاه'
         verbose_name_plural = 'دیدگاه ها'
 

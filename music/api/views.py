@@ -31,6 +31,7 @@ class CommentApiView(ListCreateAPIView):
 class ReplyCommentApiView(ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    filter_backends = (OrderingFilter,)
     ordering_fields = ('created_on',)
 
     def get_queryset(self):

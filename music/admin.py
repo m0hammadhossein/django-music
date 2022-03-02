@@ -15,6 +15,13 @@ class SongAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('song', 'user', 'jcreated_on')
+    list_display = ('song', 'user', 'jcreated_on', 'active')
     search_fields = ('song__title', 'user__username')
     raw_id_fields = ('song', 'user', 'parent')
+    list_filter = ('active',)
+    actions = ('active_comments',)
+
+    @admin.action(description='نمایش دیدگاه های انتخاب شده')
+    def active_comments(self,request, queryset):
+        queryset.update(active=True)
+        self.message_user(request, 'وضعیت دیدگاه ها تغییر کرد.')

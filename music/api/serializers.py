@@ -10,7 +10,7 @@ class SongSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
-    created_on = serializers.CharField(source='jcreated_on')
+    created_on = serializers.CharField(source='tms_created_on', read_only=True)
 
     def get_user(self, obj):
         return (obj.user.get_full_name() or obj.user.username)
@@ -18,3 +18,4 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         exclude = ('parent', 'song', 'active')
+        read_only_fields = ('reply_count', 'user')

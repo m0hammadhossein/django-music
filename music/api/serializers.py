@@ -2,10 +2,21 @@ from rest_framework import serializers
 from music.models import Song, Comment
 
 
-class SongSerializer(serializers.ModelSerializer):
+class SongRetrieveSerializer(serializers.ModelSerializer):
+    user_liked = serializers.SerializerMethodField()
+
+    def get_user_liked(self, obj):
+        return obj.users.filter(pk=self.context['request'].user.pk).exists()
+
     class Meta:
         model = Song
         fields = '__all__'
+
+
+class SongListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Song
+        exclude = ('text',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -18,4 +29,4 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         exclude = ('parent', 'song', 'active')
-        read_only_fields = ('reply_count', 'user')
+        read_only_fields = ('reply_count', 'user', 'id')

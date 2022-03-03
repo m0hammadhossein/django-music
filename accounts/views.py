@@ -12,10 +12,12 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 from accounts.forms import SignUp as SignUpForm
 from accounts.mixins import LogoutRequiredMixin
 from accounts.token import account_activation_token
+
+User = get_user_model()
 
 
 class LoginView(LogoutRequiredMixin, AuthLogin):
@@ -76,7 +78,6 @@ class SignUp(CreateView):
 
 class Activate(View):
     def get(self, request, uidb64, token):
-        User = get_user_model()
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
@@ -93,3 +94,13 @@ class Activate(View):
 
 class RegisterDone(TemplateView):
     template_name = 'registration/register_done.html'
+
+
+class Profile(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'registration/profile.html'
+    fields = ('first_name', 'last_name', 'image')
+    success_url = reverse_lazy('accounts:profile')
+
+    def get_object(self, queryset=None):
+        return User.objects.get(pk=self.request.user.pk)

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+
+from django_music import settings
 from music.models import Song
 
 
@@ -15,6 +17,13 @@ class User(AbstractUser):
     liked_posts = models.ManyToManyField(Song, related_name='users', blank=True)
     image = models.ImageField(upload_to='profiles', null=True, blank=True, validators=(validate_image,))
     email = models.EmailField(unique=True)
+
+    @property
+    def img(self):
+        try:
+            return self.image.url
+        except:
+            return f'/{settings.STATIC_URL}/registration/images/profile.png'
 
     def __str__(self):
         self.liked_posts.add()

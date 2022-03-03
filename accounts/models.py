@@ -12,9 +12,10 @@ class User(AbstractUser):
         if filesize > megabyte_limit * 1024 * 1024:
             raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
 
-    liked_posts = models.ManyToManyField(Song, related_name='users')
+    liked_posts = models.ManyToManyField(Song, related_name='users', blank=True)
     image = models.ImageField(upload_to='profiles', null=True, blank=True, validators=(validate_image,))
     email = models.EmailField(unique=True)
 
     def __str__(self):
+        self.liked_posts.add()
         return self.username

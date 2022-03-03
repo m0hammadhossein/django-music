@@ -1,0 +1,75 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>پروفایل</title>
+    <link href="{% static "registration/css/adminlte.css" %}" rel="stylesheet">
+    <link href="{% static "registration/css/rtl.css" %}" rel="stylesheet">
+</head>
+<body>
+<div class="col-md-6 mx-auto mt-5">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title mb-0 float-right">پروفایل</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <div class="text-center p-3">
+            <img class="img-fluid img-circle" width="25%" height="25%" src="{{ user.img }}"
+                 alt="User profile picture">
+        </div>
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>نام</label>
+                        {{ form.first_name|add_class:"form-control" }}
+                        {% if form.first_name.errors %}
+                            <br>
+                            <div class="alert alert-warning">
+                                {{ form.first_name.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                        <label>نام خانوادگی</label>
+                        {{ form.last_name|add_class:"form-control" }}
+                        {% if form.last_name.errors %}
+                            <br>
+                            <div class="alert alert-warning">
+                                {{ form.last_name.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>تصویر</label>
+                        <input type="file" class="form-control" name="{{ form.image.name }}">
+                        {% if form.image.errors %}
+                            <br>
+                            <div class="alert alert-warning">
+                                {{ form.image.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.image.value and not form.image.errors %}
+                            <br>
+                            <input type="checkbox" name="image-clear" id="image-clear_id">
+                            <label for="image-clear_id">پاک کردن تصویر جاری</label>
+                        {% endif %}
+{#                        {{ form.image|add_class:"form-control" }}#}
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">ذخیره</button>
+                <a href="{% url 'accounts:password_change' %}" class="btn btn-danger">تغییر گذرواژه</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

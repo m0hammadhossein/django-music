@@ -23,7 +23,7 @@ class Song(models.Model):
     cover = models.ImageField(upload_to='songs/covers', validators=(validate_image,))
     audio_file = models.FileField(upload_to='songs')
     duration = models.DurationField(default=timedelta)
-    created_on = models.DateTimeField()
+    created_on = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
 
     def delete(self, using=None, keep_parents=False):

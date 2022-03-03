@@ -1,6 +1,6 @@
 from django.urls import path
 from music.api.views import SongListApiView, CommentApiView, ReplyCommentApiView, LikeAPiView, SongRetrieveApiView, \
-    CommentUpdate, CommentsApiView
+    CommentsApiView
 
 urlpatterns = [
     path('', SongListApiView.as_view(), name='song-list-api'),

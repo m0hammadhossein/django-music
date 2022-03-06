@@ -5,7 +5,7 @@ from music.models import Song, Comment
 
 @admin.register(Song)
 class SongAdmin(admin.ModelAdmin):
-    list_display = ('title', 'image_tag', 'likes', 'duration')
+    list_display = ('title', 'image_tag', 'likes', 'comments', 'duration')
     search_fields = ('title', 'artist')
 
     @admin.display(description='cover')

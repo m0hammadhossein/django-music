@@ -25,6 +25,7 @@ class Song(models.Model):
     duration = models.DurationField(default=timedelta)
     created_on = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
+    comments = models.PositiveIntegerField(default=0)
 
     def delete(self, using=None, keep_parents=False):
         res = super().delete(using=using, keep_parents=keep_parents)

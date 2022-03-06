@@ -17,8 +17,6 @@ from accounts.forms import SignUp as SignUpForm
 from accounts.mixins import LogoutRequiredMixin
 from accounts.token import account_activation_token
 
-User = get_user_model()
-
 
 class LoginView(LogoutRequiredMixin, AuthLogin):
     """
@@ -80,7 +78,7 @@ class Activate(View):
     def get(self, request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(pk=uid)
+            user = get_user_model().objects.get(pk=uid)
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user is not None and account_activation_token.check_token(user, token):
@@ -97,10 +95,10 @@ class RegisterDone(TemplateView):
 
 
 class Profile(LoginRequiredMixin, UpdateView):
-    model = User
+    model = get_user_model()
     template_name = 'registration/profile.html'
     fields = ('first_name', 'last_name', 'image')
     success_url = reverse_lazy('accounts:profile')
 
     def get_object(self, queryset=None):
-        return User.objects.get(pk=self.request.user.pk)
+        return self.model.objects.get(pk=self.request.user.pk)

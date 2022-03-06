@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'rest_framework',
+    'rest_framework_simplejwt',
     'music.apps.MusicConfig',
     'accounts.apps.AccountsConfig',
 ]
@@ -107,8 +108,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 #REST_FRAMEWORK
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'django_music.pagination.MyPagination',
     'PAGE_SIZE': 20
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
